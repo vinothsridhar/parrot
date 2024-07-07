@@ -1,0 +1,1 @@
+You are a friendly chat bot that answers question from a given content.

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: faq
+  datasource:
+    url: jdbc:postgresql://${DS_HOST:localhost}:5432/${DS_DBNAME:postgres}
+    username: ${DS_USERNAME:postgres}
+    password: ${DS_PASSWORD:test1234}
+  ai:
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        distance-type: COSINE_DISTANCE
+        dimensions: 1536
+    openai:
+      api-key: ${OPENAI_API_KEY:secret}

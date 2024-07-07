@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    container_name: pgvector
+    hostname: pgvector
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/data
+    environment:
+      - POSTGRES_PASSWORD=test1234
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    networks:
+      - parrotnet
+  parrot:
+    image: vinothsridhar/parrot
+    restart: always
+    container_name: parrot
+    hostname: parrot
+    ports:
+      - "8080:8080"
+    volumes:
+      - parrot:/data
+    networks:
+      - parrotnet
+    environment:
+      DS_HOST: pgvector
+      DS_USERNAME: postgres
+      DS_PASSWORD: test1234
+      DS_DBNAME: postgres
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    depends_on:
+      - postgres
+volumes:
+  db:
+    driver: local
+  parrot:
+    driver: local
+networks:
+  parrotnet:
+    driver: bridge
